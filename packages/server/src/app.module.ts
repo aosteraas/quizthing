@@ -4,9 +4,10 @@ import { typeOrmConfig } from 'config/typeOrmConfig';
 import { AuthModule } from './auth/auth.module';
 import { QuizService } from './quiz/quiz.service';
 import { QuizModule } from './quiz/quiz.module';
+import { QuestionModule } from './question/question.module';
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync(typeOrmConfig), AuthModule, QuizModule],
+  imports: [TypeOrmModule.forRootAsync(typeOrmConfig), AuthModule, QuizModule, QuestionModule],
   controllers: [],
   providers: [QuizService],
 })
