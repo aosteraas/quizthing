@@ -1,5 +1,7 @@
 # QuizThing
 
+## Setup
+
 ### Todo
 
 Required
