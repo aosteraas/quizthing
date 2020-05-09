@@ -2,6 +2,12 @@
 
 ## Setup
 
+- Install Node.js >= 12
+- Install Lerna with `yarn add global lerna` or `npm i -g lerna`
+- Install PostgreSQL
+- Clone repo
+- Run `lerna bootstrap`
+
 ### Todo
 
 Required
