@@ -5,7 +5,7 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { Question } from 'src/question/question.entity';
+import { Question } from '../question/question.entity';
 
 @Entity()
 export class Quiz extends BaseEntity {

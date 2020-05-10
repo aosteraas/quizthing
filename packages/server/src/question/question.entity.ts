@@ -5,7 +5,7 @@ import {
   Column,
   ManyToOne,
 } from 'typeorm';
-import { Quiz } from 'src/quiz/quiz.entity';
+import { Quiz } from '../quiz/quiz.entity';
 
 @Entity()
 export class Question extends BaseEntity {

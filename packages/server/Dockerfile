@@ -2,9 +2,12 @@ FROM node:14.2.0-alpine3.11 AS development
 
 WORKDIR /usr/src/app
 
+# Add build tools.
+RUN apk --no-cache add --virtual builds-deps build-base python
+
+# Copy package.json, lockfile, and install.
 COPY package.json ./
 COPY yarn.lock ./
-
 RUN yarn
 
 COPY . .

@@ -9,15 +9,15 @@ export class QuizService {
     private readonly quizRepository: QuizRepository,
   ) {}
 
-  async createQuiz() {
+  createQuiz() {
     throw new NotImplementedException();
   }
 
-  async deleteQuiz() {
+  deleteQuiz() {
     throw new NotImplementedException();
   }
 
-  async updateQuiz() {
+  updateQuiz() {
     throw new NotImplementedException();
   }
 }
