@@ -15,4 +15,13 @@ describe('QuizService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+  it('createQuiz', () => {
+    expect(service.createQuiz()).toThrow();
+  });
+  it('deleteQuiz', () => {
+    expect(service.deleteQuiz()).toThrow();
+  });
+  it('updateQuiz', () => {
+    expect(service.updateQuiz()).toThrow();
+  });
 });

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuizRepository } from './quiz.repository';
 
@@ -10,6 +10,14 @@ export class QuizService {
   ) {}
 
   async createQuiz() {
-    // this.quizRepository.createQuiz
+    throw new NotImplementedException();
+  }
+
+  async deleteQuiz() {
+    throw new NotImplementedException();
+  }
+
+  async updateQuiz() {
+    throw new NotImplementedException();
   }
 }
