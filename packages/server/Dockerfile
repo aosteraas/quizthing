@@ -12,6 +12,8 @@ RUN yarn
 
 COPY . .
 
+RUN yarn test
+
 RUN yarn build
 
 #
