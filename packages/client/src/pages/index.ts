@@ -1,3 +1,4 @@
+export * from './Home';
 export * from './NotFound';
-export * from './Unauthorized';
 export * from './Register';
+export * from './Unauthorized';
