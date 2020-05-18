@@ -6,9 +6,13 @@ import { QuizModule } from './quiz/quiz.module';
 import { QuestionModule } from './question/question.module';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
+const development = process.env.NODE_ENV === 'development';
+
 const baseconf: PostgresConnectionOptions = {
   type: 'postgres',
+  synchronize: development,
 };
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -23,7 +27,7 @@ const baseconf: PostgresConnectionOptions = {
           password: configService.get('DATABASE_PASS'),
           database: configService.get('DATABASE_NAME'),
           entities: [__dirname + '/**/*.entity.{js,ts}'],
-          // synchronize: true,
+          synchronize: baseconf.synchronize,
         };
       },
       inject: [ConfigService],
