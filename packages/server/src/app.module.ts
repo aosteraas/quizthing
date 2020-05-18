@@ -21,11 +21,11 @@ const baseconf: PostgresConnectionOptions = {
       useFactory: async (configService: ConfigService) => {
         return {
           type: baseconf.type,
-          host: configService.get('DATABASE_HOST'),
+          host: configService.get('DATABASE_HOST', 'localhost'),
           port: configService.get<number>('DATABASE_PORT', 5432),
-          username: configService.get('DATABASE_USER'),
-          password: configService.get('DATABASE_PASS'),
-          database: configService.get('DATABASE_NAME'),
+          username: configService.get('DATABASE_USER', 'postgres'),
+          password: configService.get('DATABASE_PASS', 'postgres'),
+          database: configService.get('DATABASE_NAME', 'quizthing'),
           entities: [__dirname + '/**/*.entity.{js,ts}'],
           synchronize: baseconf.synchronize,
         };
