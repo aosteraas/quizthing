@@ -2,32 +2,37 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { QuizService } from './quiz/quiz.service';
 import { QuizModule } from './quiz/quiz.module';
 import { QuestionModule } from './question/question.module';
-ConfigModule.forRoot;
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+
+const baseconf: PostgresConnectionOptions = {
+  type: 'postgres',
+};
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          type: baseconf.type,
+          host: configService.get('DATABASE_HOST'),
+          port: configService.get<number>('DATABASE_PORT', 5432),
+          username: configService.get('DATABASE_USER'),
+          password: configService.get('DATABASE_PASS'),
+          database: configService.get('DATABASE_NAME'),
+          entities: [__dirname + '/**/*.entity.{js,ts}'],
+          // synchronize: true,
+        };
+      },
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'postgres' as 'postgres',
-        host: configService.get('DATABASE_HOST', 'localhost'),
-        port: configService.get<number>('DATABASE_PORT', 5432),
-        username: configService.get('DATABASE_USER', 'postgres'),
-        password: configService.get('DATABASE_PASS', 'postgres'),
-        database: configService.get('DATABASE_NAME', 'postgres'),
-        entities: [__dirname + '/**/*.entity.{js,ts}'],
-        synchronize: true,
-      }),
     }),
     AuthModule,
     QuizModule,
     QuestionModule,
+    ConfigModule,
   ],
   controllers: [],
-  providers: [QuizService],
 })
 export class AppModule {}
