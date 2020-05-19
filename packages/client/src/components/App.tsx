@@ -1,14 +1,18 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store';
-import { GlobalStyle } from '../styles';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home, Login, NotFound, Register, Unauthorized } from '../pages';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <GlobalStyle />
-      <p>todo</p>
-    </Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/not-found" element={<NotFound />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

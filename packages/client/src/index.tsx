@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Layout } from 'antd';
+import { store } from './store';
+import { GlobalStyle } from './styles';
 import App from './components/App';
+
 import * as serviceWorker from './serviceWorker';
+
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <GlobalStyle />
+      <Layout>
+        <App />
+      </Layout>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
