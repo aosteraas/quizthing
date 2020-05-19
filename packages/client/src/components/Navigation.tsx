@@ -1,13 +1,29 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+import { AppRoutes } from '../Routes';
+
+const nav = [
+  { path: AppRoutes.Home, copy: 'Home' },
+  { path: AppRoutes.Login, copy: 'Login' },
+  { path: AppRoutes.Register, copy: 'Register' },
+];
 
 export const Navigation = () => {
+  const location = useLocation();
+
   return (
     <Layout.Header>
-      <Menu theme="dark" mode="horizontal">
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={[location.pathname]}
+      >
+        {nav.map(({ path, copy }, idx) => (
+          <Menu.Item key={path}>
+            <Link to={path}>{copy}</Link>
+          </Menu.Item>
+        ))}
       </Menu>
     </Layout.Header>
   );
