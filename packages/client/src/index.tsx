@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Layout } from 'antd';
 import { store } from './store';
 import { GlobalStyle } from './styles';
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 
 import * as serviceWorker from './serviceWorker';
@@ -14,9 +15,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <GlobalStyle />
-      <Layout>
-        <App />
-      </Layout>
+      <BrowserRouter>
+        <Layout>
+          <App />
+        </Layout>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

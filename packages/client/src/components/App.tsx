@@ -1,10 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Home, Login, NotFound, Register, Unauthorized } from '../pages';
+import { Layout } from 'antd';
+import { Navigation } from './Navigation';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <>
+      <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -12,7 +15,10 @@ const App = () => {
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
-    </BrowserRouter>
+      <Layout.Footer>
+        <p>Footer</p>
+      </Layout.Footer>
+    </>
   );
 };
 
