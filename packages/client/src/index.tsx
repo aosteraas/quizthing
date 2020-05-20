@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components/macro';
 import { Provider } from 'react-redux';
 import { Layout } from 'antd';
 import { store } from './store';
@@ -11,14 +12,18 @@ import * as serviceWorker from './serviceWorker';
 
 import 'antd/dist/antd.css';
 
+const AppLayout = styled(Layout)`
+  height: 100vh;
+`;
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <GlobalStyle />
       <BrowserRouter>
-        <Layout>
+        <AppLayout>
           <App />
-        </Layout>
+        </AppLayout>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
