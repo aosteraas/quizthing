@@ -32,6 +32,6 @@ RUN yarn
 
 COPY . .
 
-COPY --from=development /usr/src/dist ./dist
+COPY --from=development /usr/src/app/dist ./dist
 
 CMD ["node", 'dist/main']
