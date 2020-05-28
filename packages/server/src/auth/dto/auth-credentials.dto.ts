@@ -9,18 +9,18 @@ import {
 export class AuthCredentialsDto {
   // TODO check validators are ok
   @IsString()
-  @MinLength(4)
-  @MaxLength(20)
+  // @MinLength(4)
+  // @MaxLength(20)
   username: string;
 
-  @IsEmail()
+  // @IsEmail()
   email: string;
 
-  @IsString()
-  @MinLength(8)
-  @MaxLength(25)
-  @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  // @IsString()
+  // @MinLength(8)
+  // @MaxLength(25)
+  // @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  //   message: 'password too weak',
+  // })
   password: string;
 }
