@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/RegistrationStyle.css';
 
 export const Register = () => {
   // we use the help of useRef to test if it's the first render
@@ -18,9 +19,6 @@ export const Register = () => {
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
 
-  const [hasAgreed, setHasAgreed] = useState(false);
-  const [hasAgreedError, setHasAgreedError] = useState('');
-
   // for every change in our state this will be fired
   // we add validation here and disable the submit button if required
   useEffect(() => {
@@ -30,18 +28,8 @@ export const Register = () => {
       return;
     }
 
-    if (hasAgreed === false) {
-      setHasAgreedError(
-        'You need to accept terms and conditions before you proceed',
-      );
-      setDisabled(true);
-    } else {
-      setHasAgreedError('');
-      setDisabled(false);
-    }
-
     setDisabled(formValidation());
-  }, [name, email, password, hasAgreed]);
+  }, [name, email, password]);
 
   // here we run any validation, returning true/false
   const formValidation = () => {
@@ -67,7 +55,7 @@ export const Register = () => {
       setPasswordError('Password cant be blank!');
       isFormValid = true;
     } else {
-      setPassword('');
+      setPasswordError('');
       isFormValid = false;
     }
 
@@ -75,17 +63,16 @@ export const Register = () => {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (hasAgreed === false) {
-      setHasAgreedError(
-        'You need to accept terms and conditions before you proceed',
-      );
-      setDisabled(true);
-    } else {
-      setHasAgreedError('');
-      setDisabled(false);
-    }
+    // dispatch an action
     e.preventDefault();
   };
+
+  const validateEmail = (email: string) => {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleInputChange = () => {};
 
   return (
     <div className="FormCenter">
@@ -103,7 +90,7 @@ export const Register = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {nameError && <p>{nameError}</p>}
+          {nameError && <p className="is-danger">{nameError}</p>}
         </div>
 
         <div className="FormField">
@@ -120,7 +107,7 @@ export const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          {emailError && <p>{setEmailError}</p>}
+          {emailError && <p className="is-danger">{setEmailError}</p>}
         </div>
 
         <div className="FormField">
@@ -136,29 +123,12 @@ export const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {passwordError && <p>{passwordError}</p>}
-        </div>
-
-        <div className="FormField">
-          <label className="FormField__CheckboxLabel">
-            <input
-              className="FormField__Checkbox"
-              type="checkbox"
-              name="hasAgreed"
-              checked={hasAgreed}
-              onChange={(e) => setHasAgreed(e.target.checked)}
-            />{' '}
-            I agree all statements in{' '}
-            <a href="" className="FormField__TermsLink">
-              terms of service
-            </a>
-            {hasAgreedError && <p>{hasAgreedError}</p>}
-          </label>
+          {passwordError && <p className="is-danger">{passwordError}</p>}
         </div>
 
         {/* Fix the active tab upon navigating to Login */}
         <div className="FormField">
-          <button className="FormField__Button mr-20" disabled={disable}>
+          <button className="FormField__Button" disabled={disable}>
             Register
           </button>{' '}
           <Link to="/login" className="FormField__Link">
