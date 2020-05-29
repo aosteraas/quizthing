@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/RegistrationStyle.css';
 import useForm from '../utils/useForm';
 import validate from '../utils/validateRegister';
+import strings from '../locale/en';
 
 export const Register = () => {
   const { handleInputChange, handleSubmit, values, errors } = useForm(
@@ -18,13 +19,13 @@ export const Register = () => {
       <form onSubmit={handleSubmit} className="FormFields" noValidate>
         <div className="FormField">
           <label className="FormField__Label" htmlFor="name">
-            Display Name
+            {strings.displayNameLabel}
           </label>
           <input
             type="text"
             id="displayName"
             className="FormField__Input"
-            placeholder="Enter your display name"
+            placeholder={strings.displayNamePlaceHolder}
             name="displayName"
             value={values.displayName}
             onChange={handleInputChange}
@@ -33,13 +34,13 @@ export const Register = () => {
 
         <div className="FormField">
           <label className="FormField__Label" htmlFor="email">
-            E-Mail Address
+            {strings.emailLabel}
           </label>
           <input
             type="email"
             id="email"
             className="FormField__Input"
-            placeholder="Enter your email"
+            placeholder={strings.emailPlaceHolder}
             name="email"
             value={values.email}
             onChange={handleInputChange}
@@ -50,13 +51,13 @@ export const Register = () => {
 
         <div className="FormField">
           <label className="FormField__Label" htmlFor="password">
-            Password
+            {strings.passwordLabel}
           </label>
           <input
             type="password"
             id="password"
             className="FormField__Input"
-            placeholder="Enter your password"
+            placeholder={strings.passwordPlaceHolder}
             name="password"
             value={values.password}
             onChange={handleInputChange}
@@ -64,7 +65,7 @@ export const Register = () => {
           {errors.password && <p className="is-danger">{errors.password}</p>}
         </div>
         <button className="FormField__Button" type="submit">
-          Register
+          {strings.registerBtnLabel}
         </button>
       </form>
     </div>
