@@ -1,96 +1,34 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import '../styles/RegistrationStyle.css';
+import useForm from '../utils/useForm';
+import validate from '../utils/validateRegister';
 
 export const Register = () => {
-  // we use the help of useRef to test if it's the first render
-  const firstRender = useRef(true);
+  const { handleInputChange, handleSubmit, values, errors } = useForm(
+    submit,
+    validate,
+  );
 
-  // set a state variable which can be used to disable the submit button
-  // we set it to true so that the form is disabled on first render
-  const [disable, setDisabled] = useState(true);
-
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
-  const [name, setName] = useState('');
-  const [nameError, setNameError] = useState('');
-
-  // for every change in our state this will be fired
-  // we add validation here and disable the submit button if required
-  useEffect(() => {
-    // we want to skip validation on first render
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-
-    setDisabled(formValidation());
-  }, [name, email, password]);
-
-  // here we run any validation, returning true/false
-  const formValidation = () => {
-    let isFormValid = true;
-
-    if (name === '') {
-      setNameError('Name cant be blank!');
-      isFormValid = true;
-    } else {
-      setNameError('');
-      isFormValid = false;
-    }
-
-    if (email === '') {
-      setEmailError('Email cant be blank!');
-      isFormValid = true;
-    } else {
-      setEmailError('');
-      isFormValid = false;
-    }
-
-    if (password === '') {
-      setPasswordError('Password cant be blank!');
-      isFormValid = true;
-    } else {
-      setPasswordError('');
-      isFormValid = false;
-    }
-
-    return isFormValid;
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // dispatch an action
-    e.preventDefault();
-  };
-
-  const validateEmail = (email: string) => {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  const handleInputChange = () => {};
+  function submit() {
+    console.log('Registered successfully');
+  }
 
   return (
     <div className="FormCenter">
-      <form onSubmit={handleSubmit} className="FormFields">
+      <form onSubmit={handleSubmit} className="FormFields" noValidate>
         <div className="FormField">
           <label className="FormField__Label" htmlFor="name">
             Display Name
           </label>
           <input
             type="text"
-            id="name"
+            id="displayName"
             className="FormField__Input"
             placeholder="Enter your display name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="displayName"
+            value={values.displayName}
+            onChange={handleInputChange}
           />
-          {nameError && <p className="is-danger">{nameError}</p>}
         </div>
 
         <div className="FormField">
@@ -103,11 +41,11 @@ export const Register = () => {
             className="FormField__Input"
             placeholder="Enter your email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={values.email}
+            onChange={handleInputChange}
             required
           />
-          {emailError && <p className="is-danger">{setEmailError}</p>}
+          {errors.email && <p className="is-danger">{errors.email}</p>}
         </div>
 
         <div className="FormField">
@@ -120,21 +58,14 @@ export const Register = () => {
             className="FormField__Input"
             placeholder="Enter your password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={values.password}
+            onChange={handleInputChange}
           />
-          {passwordError && <p className="is-danger">{passwordError}</p>}
+          {errors.password && <p className="is-danger">{errors.password}</p>}
         </div>
-
-        {/* Fix the active tab upon navigating to Login */}
-        <div className="FormField">
-          <button className="FormField__Button" disabled={disable}>
-            Register
-          </button>{' '}
-          <Link to="/login" className="FormField__Link">
-            I'm already member
-          </Link>
-        </div>
+        <button className="FormField__Button" type="submit">
+          Register
+        </button>
       </form>
     </div>
   );
