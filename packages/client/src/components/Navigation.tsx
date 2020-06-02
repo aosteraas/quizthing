@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
 import { AppNavigation } from '../Routes';
 
 export const Navigation = () => {
-  const location = useLocation();
   const [shown, setShown] = useState(false);
   return (
     <header>

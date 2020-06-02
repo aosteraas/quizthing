@@ -2,12 +2,10 @@ export interface Errors {
   [key: string]: any;
 }
 
-// TODO - fix the return type
-// as of now, I fixed it by saying infer from usage type
-export default function validateRegister(values: {
+export const validateRegister = (values: {
   email: string;
   password: string;
-}) {
+}) => {
   let errors: Errors = {};
   if (!values.email) {
     errors.email = 'Email address is required';
@@ -22,4 +20,4 @@ export default function validateRegister(values: {
   }
 
   return errors;
-}
+};

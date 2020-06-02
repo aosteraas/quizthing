@@ -1,73 +1,77 @@
 import React from 'react';
-import '../styles/RegistrationStyle.css';
-import useForm from '../utils/useForm';
-import validate from '../utils/validateRegister';
-import strings from '../locale/en';
+import {
+  FormControl,
+  FormLabel,
+  Button,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
+  Stack,
+} from '@chakra-ui/core';
+import { useForm } from '../hooks/useForm';
+import { validateRegister } from '../utils/validateRegister';
+import { strings } from '../locale/en';
 
 export const Register = () => {
-  const { handleInputChange, handleSubmit, values, errors } = useForm(
+  const submit = () => {
+    console.log('Registered successfully');
+  };
+
+  const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
-    validate,
+    validateRegister,
   );
 
-  function submit() {
-    console.log('Registered successfully');
-  }
-
   return (
-    <div className="FormCenter">
-      <form onSubmit={handleSubmit} className="FormFields" noValidate>
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="name">
-            {strings.displayNameLabel}
-          </label>
-          <input
-            type="text"
-            id="displayName"
-            className="FormField__Input"
-            placeholder={strings.displayNamePlaceHolder}
-            name="displayName"
-            value={values.displayName}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="email">
-            {strings.emailLabel}
-          </label>
-          <input
+    <form onSubmit={handleSubmit} className="FormFields" noValidate>
+      <Stack spacing={5}>
+        <FormControl>
+          <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
+          <Input
             type="email"
             id="email"
-            className="FormField__Input"
-            placeholder={strings.emailPlaceHolder}
             name="email"
+            aria-describedby="email-helper-text"
             value={values.email}
-            onChange={handleInputChange}
-            required
+            onChange={handleChange}
           />
-          {errors.email && <p className="is-danger">{errors.email}</p>}
-        </div>
+          <FormHelperText id="email-helper-text">
+            {strings.emailSubtext}
+          </FormHelperText>
+        </FormControl>
 
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="password">
-            {strings.passwordLabel}
-          </label>
-          <input
+        <FormControl>
+          <FormLabel htmlFor="display-name">
+            {strings.displayNameLabel}
+          </FormLabel>
+          <Input
+            type="text"
+            id="display-name"
+            name="displayName"
+            aria-describedby="display-name-helper-text"
+            placeholder={strings.displayNamePlaceHolder}
+            value={values.displayName}
+            onChange={handleChange}
+          />
+          <FormHelperText id="display-name-helper-text">
+            {strings.displayNameSubtext}
+          </FormHelperText>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel htmlFor="password">{strings.passwordLabel}</FormLabel>
+          <Input
             type="password"
             id="password"
-            className="FormField__Input"
-            placeholder={strings.passwordPlaceHolder}
             name="password"
-            value={values.password}
-            onChange={handleInputChange}
+            placeholder={strings.passwordPlaceHolder}
+            value={values.displayName}
+            onChange={handleChange}
           />
-          {errors.password && <p className="is-danger">{errors.password}</p>}
-        </div>
-        <button className="FormField__Button" type="submit">
-          {strings.registerBtnLabel}
-        </button>
-      </form>
-    </div>
+        </FormControl>
+
+        <Button type="submit">{strings.registerBtnLabel}</Button>
+      </Stack>
+    </form>
   );
 };
