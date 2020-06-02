@@ -65,7 +65,7 @@ export const useForm = (onSubmit: { (): void }) => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       onSubmit();
     }
-  }, [errors]);
+  }, [errors, isSubmitting, onSubmit]);
 
   return {
     handleChange,
