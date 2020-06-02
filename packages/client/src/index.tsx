@@ -1,31 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components/macro';
 import { Provider } from 'react-redux';
-import { Layout } from 'antd';
 import { store } from './store';
-import { GlobalStyle } from './styles';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 
 import * as serviceWorker from './serviceWorker';
 
-import 'antd/dist/antd.css';
-
-const AppLayout = styled(Layout)`
-  height: 100vh;
-`;
-
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <AppLayout>
+    <ThemeProvider>
+      <CSSReset />
+      <Provider store={store}>
+        <BrowserRouter>
           <App />
-        </AppLayout>
-      </BrowserRouter>
-    </Provider>
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
