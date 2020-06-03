@@ -61,7 +61,6 @@ export const useForm = (onSubmit: { (): void }) => {
   // use effect takes in two params
   // callback function and observer
   useEffect(() => {
-    console.log('im here ', Object.keys(errors).length);
     if (Object.keys(errors).length === 0 && isSubmitting) {
       onSubmit();
     }
