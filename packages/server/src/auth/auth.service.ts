@@ -8,8 +8,7 @@ import { JwtPayLoad } from './jwt-payload.interface';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    @InjectRepository(UserRepository) private userRepository: UserRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -17,7 +16,9 @@ export class AuthService {
     return this.userRepository.signUp(authCredentialsDto);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+  async signIn(
+    authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
     const username = await this.userRepository.validateUserPassword(
       authCredentialsDto,
     );
@@ -26,8 +27,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid Credentials');
     }
 
-    const payload: JwtPayLoad = { username };
-    const accessToken = await this.jwtService.sign(payload);
+    const accessToken = await this.jwtService.signAsync({ username });
     return { accessToken };
   }
 }
