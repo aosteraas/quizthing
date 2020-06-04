@@ -1,14 +1,23 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store';
-import { GlobalStyle } from '../styles';
+import { Routes, Route } from 'react-router-dom';
+import { Navigation } from './Navigation';
+import { AppRouteData } from '../Routes';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <GlobalStyle />
-      <p>todo</p>
-    </Provider>
+    <>
+      <Navigation />
+      <main style={{ height: `100%`, background: 'white' }}>
+        <Routes>
+          {AppRouteData.map(({ path, Component }) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
+        </Routes>
+      </main>
+      <footer>
+        <p>Footer</p>
+      </footer>
+    </>
   );
 };
 
