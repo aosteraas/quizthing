@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import type { Nullable } from '@quizthing/common';
 
 export interface Api {
   get: <T>(url: string) => Promise<T>;
@@ -6,8 +7,6 @@ export interface Api {
   put: <T>(url: string, body: any) => Promise<T>;
   patch: <T>(url: string, body: any) => Promise<T>;
 }
-
-type Nullable<T> = T | null;
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
