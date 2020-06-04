@@ -6,6 +6,7 @@ export interface Api {
   post: <T>(url: string, body: any) => Promise<T>;
   put: <T>(url: string, body: any) => Promise<T>;
   patch: <T>(url: string, body: any) => Promise<T>;
+  setAuthToken: (shit: Nullable<string>) => void;
 }
 
 const defaultHeaders = {
@@ -39,7 +40,6 @@ export class ApiClient implements Api {
   };
 
   post = async <T>(url: string, body: any): Promise<T> => {
-    axios.post('');
     const response = await this.#instance.post<T>(url, body);
     return response.data;
   };
