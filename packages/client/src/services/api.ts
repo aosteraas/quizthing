@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Nullable } from '@quizthing/common';
 
 export interface Api {
@@ -11,6 +11,16 @@ export interface Api {
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
+};
+
+const onFulfilled = (res: AxiosResponse) => res;
+
+const onRejected = (err: any) => {
+  if (err.response.status === 401) {
+    // throw an error?
+    return;
+  }
+  return Promise.reject(err);
 };
 
 export class ApiClient implements Api {
@@ -30,6 +40,8 @@ export class ApiClient implements Api {
       }
       return conf;
     });
+
+    instance.interceptors.response.use(onFulfilled, onRejected);
 
     this.#instance = instance;
   }
