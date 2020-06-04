@@ -1,73 +1,92 @@
 import React from 'react';
-import '../styles/RegistrationStyle.css';
-import useForm from '../utils/useForm';
-import validate from '../utils/validateRegister';
-import strings from '../locale/en';
+import {
+  FormControl,
+  FormLabel,
+  Button,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
+  Stack,
+  Flex,
+} from '@chakra-ui/core';
+import { useForm } from '../hooks/useForm';
+import { strings } from '../locale/en';
 
 export const Register = () => {
-  const { handleInputChange, handleSubmit, values, errors } = useForm(
-    submit,
-    validate,
+  const onSubmit = () => {
+    console.log('Registered successfully');
+  };
+
+  const { handleChange, handleSubmit, handleBlur, values, errors } = useForm(
+    onSubmit,
   );
 
-  function submit() {
-    console.log('Registered successfully');
-  }
-
   return (
-    <div className="FormCenter">
-      <form onSubmit={handleSubmit} className="FormFields" noValidate>
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="name">
-            {strings.displayNameLabel}
-          </label>
-          <input
-            type="text"
-            id="displayName"
-            className="FormField__Input"
-            placeholder={strings.displayNamePlaceHolder}
-            name="displayName"
-            value={values.displayName}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="email">
-            {strings.emailLabel}
-          </label>
-          <input
+    <Flex
+      m="0 auto"
+      alignItems="center"
+      as="form"
+      onSubmit={handleSubmit}
+      width={[
+        '100%', // base
+        '50%', // 480px upwards
+        '25%', // 768px upwards
+      ]}
+    >
+      <Stack w="100%" spacing={5}>
+        <FormControl isInvalid={(errors.email?.length ?? 0) > 0}>
+          <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
+          <Input
             type="email"
             id="email"
-            className="FormField__Input"
-            placeholder={strings.emailPlaceHolder}
             name="email"
+            aria-describedby="email-helper-text"
             value={values.email}
-            onChange={handleInputChange}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errorBorderColor="red.300"
           />
-          {errors.email && <p className="is-danger">{errors.email}</p>}
-        </div>
+          <FormErrorMessage>{errors.email}</FormErrorMessage>
+          <FormHelperText id="email-helper-text">
+            {strings.emailSubtext}
+          </FormHelperText>
+        </FormControl>
 
-        <div className="FormField">
-          <label className="FormField__Label" htmlFor="password">
-            {strings.passwordLabel}
-          </label>
-          <input
+        <FormControl>
+          <FormLabel htmlFor="display-name">
+            {strings.displayNameLabel}
+          </FormLabel>
+          <Input
+            type="text"
+            id="display-name"
+            name="displayName"
+            aria-describedby="display-name-helper-text"
+            placeholder={strings.displayNamePlaceHolder}
+            value={values.displayName}
+            onChange={handleChange}
+          />
+          <FormHelperText id="display-name-helper-text">
+            {strings.displayNameSubtext}
+          </FormHelperText>
+        </FormControl>
+
+        <FormControl isInvalid={(errors.password?.length ?? 0) > 0}>
+          <FormLabel htmlFor="password">{strings.passwordLabel}</FormLabel>
+          <Input
             type="password"
             id="password"
-            className="FormField__Input"
-            placeholder={strings.passwordPlaceHolder}
             name="password"
+            placeholder={strings.passwordPlaceHolder}
             value={values.password}
-            onChange={handleInputChange}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errorBorderColor="red.300"
           />
-          {errors.password && <p className="is-danger">{errors.password}</p>}
-        </div>
-        <button className="FormField__Button" type="submit">
-          {strings.registerBtnLabel}
-        </button>
-      </form>
-    </div>
+          <FormErrorMessage>{errors.password}</FormErrorMessage>
+        </FormControl>
+
+        <Button type="submit">{strings.registerBtnLabel}</Button>
+      </Stack>
+    </Flex>
   );
 };
