@@ -6,6 +6,7 @@ export interface Api {
   post: <T>(url: string, body: any) => Promise<T>;
   put: <T>(url: string, body: any) => Promise<T>;
   patch: <T>(url: string, body: any) => Promise<T>;
+  delete: <T>(url: string, body: any) => Promise<T>;
   setAuthToken: (shit: Nullable<string>) => void;
 }
 
@@ -63,6 +64,11 @@ export class ApiClient implements Api {
 
   patch = async <T>(url: string, body: any): Promise<T> => {
     const response = await this.#instance.patch<T>(url, body);
+    return response.data;
+  };
+
+  delete = async <T>(url: string, body: any): Promise<T> => {
+    const response = await this.#instance.delete<T>(url, body);
     return response.data;
   };
 
