@@ -7,7 +7,7 @@ export interface Api {
   put: <T>(url: string, body: any) => Promise<T>;
   patch: <T>(url: string, body: any) => Promise<T>;
   delete: <T>(url: string, body: any) => Promise<T>;
-  setAuthToken: (shit: Nullable<string>) => void;
+  setAuthToken: (authToken: Nullable<string>) => void;
 }
 
 enum HttpStatus {
@@ -28,8 +28,16 @@ const defaultHeaders = {
   'Content-Type': 'application/json',
 };
 
+/**
+ * Promise fulfilled handler for api requests.
+ * @param res
+ */
 const onFulfilled = (res: AxiosResponse) => res;
 
+/**
+ * Promise rejected handler for api requests.
+ * @param err
+ */
 const onRejected = (err: any) => {
   if (err.response.status === 401) {
     // throw an error?
@@ -86,7 +94,7 @@ export class ApiClient implements Api {
     return response.data;
   };
 
-  setAuthToken = (shit: Nullable<string>) => {
-    this.#authToken = shit;
+  setAuthToken = (authToken: Nullable<string>) => {
+    this.#authToken = authToken;
   };
 }
