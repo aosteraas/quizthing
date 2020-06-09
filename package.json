@@ -4,5 +4,11 @@
   "devDependencies": {
     "lerna": "^3.20.2",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/config": "^0.0.36",
+    "bcrypt": "^4.0.1",
+    "config": "^3.3.1"
   }
 }
