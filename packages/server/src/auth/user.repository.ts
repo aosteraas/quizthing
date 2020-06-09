@@ -33,19 +33,19 @@ export class UserRepository extends Repository<User> {
     authCredentialsDto: AuthCredentialsDto,
   ): Promise<string> {
     const { username, email, password } = authCredentialsDto;
+    const query = this.createQueryBuilder('user');
 
-    //TODO needs work, should be a const but locks out ability to validate by email without repetition
-    let user = await this.findOne({ username });
-
-    if (!user) {
-      user = await this.findOne({ email });
-    }
+    const user = await query
+      .where('user.username = :username OR  user.email = :email', {
+        username,
+        email,
+      })
+      .execute();
 
     if (user && (await user.validatePassword(password))) {
       return user.username;
-    } else {
-      return null;
     }
+    return null;
   }
 
   private async hashPassword(password: string, salt: string) {

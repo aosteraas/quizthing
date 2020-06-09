@@ -1,26 +1,14 @@
-import {
-  IsString,
-  IsEmail,
-  MinLength,
-  MaxLength,
-  Matches,
-} from 'class-validator';
+import { IsString, IsEmail, Matches, Length } from 'class-validator';
 
 export class AuthCredentialsDto {
-  // TODO check validators are ok
   @IsString()
-  // @MinLength(4)
-  // @MaxLength(20)
+  @Length(4, 20)
   username: string;
 
-  // @IsEmail()
+  @IsEmail()
   email: string;
 
-  // @IsString()
-  // @MinLength(8)
-  // @MaxLength(25)
-  // @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-  //   message: 'password too weak',
-  // })
+  @IsString()
+  @Length(6, 25)
   password: string;
 }
