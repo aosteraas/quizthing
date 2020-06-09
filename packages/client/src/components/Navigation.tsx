@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
-import { AppNavigation } from '../Routes';
+import { AppNavigation, AppRoute } from '../Routes';
 
 export const Navigation = () => {
   const [shown, setShown] = useState(false);
@@ -13,7 +13,7 @@ export const Navigation = () => {
         justify="space-between"
         wrap="wrap"
         padding="1.5rem"
-        bg="teal.500"
+        bg="blue.500"
         color="white"
       >
         <Flex align="center" mr={5}>
@@ -57,7 +57,7 @@ export const Navigation = () => {
           mt={{ base: 4, md: 0 }}
         >
           <Button bg="transparent" border="1px">
-            Create account
+            <Link to={AppRoute.Register}>Create account</Link>
           </Button>
         </Box>
       </Flex>
