@@ -1,20 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Tokens {
+export interface Tokens {
   accessToken: string;
   refreshToken: string;
+}
+export enum AuthStage {
+  LoggedOut,
+  LoggingIn,
+  LogInError,
+  LoginSuccess,
 }
 
 interface AuthState {
   accessToken: string;
   refreshToken: string;
+  stage: AuthStage;
 }
 
 const initialState: AuthState = {
+  stage: AuthStage.LoggedOut,
   accessToken: '',
   refreshToken: '',
 };
-
 const slice = createSlice({
   name: 'auth',
   initialState,
@@ -25,6 +32,9 @@ const slice = createSlice({
         ...state,
         ...payload,
       };
+    },
+    setStage(state, actiom: PayloadAction<AuthStage>) {
+      state.stage = actiom.payload;
     },
   },
 });

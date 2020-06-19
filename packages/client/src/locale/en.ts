@@ -11,5 +11,6 @@ export const strings = new LocalizedStrings({
     passwordLabel: 'Password',
     passwordPlaceHolder: 'Enter your password',
     registerBtnLabel: 'Register',
+    loginBtnLabel: 'Log in',
   },
 });

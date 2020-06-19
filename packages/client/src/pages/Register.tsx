@@ -8,6 +8,7 @@ import {
   Input,
   Stack,
   Flex,
+  Heading,
 } from '@chakra-ui/core';
 import { useForm } from '../hooks/useForm';
 import { strings } from '../locale/en';
@@ -27,13 +28,11 @@ export const Register = () => {
       alignItems="center"
       as="form"
       onSubmit={handleSubmit}
-      width={[
-        '100%', // base
-        '50%', // 480px upwards
-        '25%', // 768px upwards
-      ]}
+      width={['100%', '50%', '25%']}
+      flex="1"
     >
       <Stack w="100%" spacing={5}>
+        <Heading pt={10}>Sign Up</Heading>
         <FormControl isInvalid={(errors.email?.length ?? 0) > 0}>
           <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
           <Input
@@ -85,7 +84,9 @@ export const Register = () => {
           <FormErrorMessage>{errors.password}</FormErrorMessage>
         </FormControl>
 
-        <Button type="submit">{strings.registerBtnLabel}</Button>
+        <Button variant="outline" variantColor="blue" type="submit">
+          {strings.registerBtnLabel}
+        </Button>
       </Stack>
     </Flex>
   );
