@@ -1,4 +1,5 @@
 import { ApiClient } from './api';
+import { Tokens } from '../store/auth';
 
 export interface LoginData {
   user: string;
@@ -6,8 +7,9 @@ export interface LoginData {
 }
 
 const api = new ApiClient();
+
 async function login(data: LoginData) {
-  const res = await api.post('/login', data);
+  const res = await api.post<Tokens>('/login', data);
   return res;
 }
 
