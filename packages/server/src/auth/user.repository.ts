@@ -35,8 +35,8 @@ export class UserRepository extends Repository<User> {
     const query = this.createQueryBuilder('user');
 
     const user = await query
-      .where('user.username = :_user OR  user.email = :_user', { _user })
-      .execute();
+      .where('user.username = :_user OR user.email = :_user', { _user })
+      .getOne();
 
     if (user && (await user.validatePassword(password))) {
       return user.username;

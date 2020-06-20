@@ -4,14 +4,13 @@ import {
   FormLabel,
   Input,
   Flex,
-  Box,
   Stack,
   Heading,
   Button,
 } from '@chakra-ui/core';
 import { strings } from '../locale/en';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/auth/login.thunk';
+import { login } from '../store/auth';
 
 export const Login = () => {
   const [user, setUser] = useState('');
@@ -22,6 +21,8 @@ export const Login = () => {
     e.preventDefault();
     dispatch(login({ user, password }));
   };
+
+  const disabled = [user, password].every((x) => x.length === 0);
 
   return (
     <Flex
@@ -44,7 +45,7 @@ export const Login = () => {
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Email or Username</FormLabel>
+          <FormLabel>Password</FormLabel>
           <Input
             type="password"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -52,7 +53,12 @@ export const Login = () => {
             }
           />
         </FormControl>
-        <Button variant="outline" variantColor="blue" type="submit">
+        <Button
+          variant="outline"
+          variantColor="blue"
+          type="submit"
+          isDisabled={disabled}
+        >
           {strings.loginBtnLabel}
         </Button>
       </Stack>
