@@ -12,28 +12,33 @@ import {
 } from '@chakra-ui/core';
 import { useForm } from '../hooks/useForm';
 import { strings } from '../locale/en';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../store';
+import { register } from '../store/registration';
 
 export const Register = () => {
-  const onSubmit = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { handleChange, handleBlur, values, errors: inputErrors } = useForm();
+  const { loading, errors } = useSelector((s: RootState) => s.registration);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(register({ ...values }));
     console.log('Registered successfully');
   };
-
-  const { handleChange, handleSubmit, handleBlur, values, errors } = useForm(
-    onSubmit,
-  );
 
   return (
     <Flex
       m="0 auto"
       alignItems="center"
       as="form"
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       width={['100%', '50%', '25%']}
       flex="1"
     >
       <Stack w="100%" spacing={5}>
         <Heading pt={10}>Sign Up</Heading>
-        <FormControl isInvalid={(errors.email?.length ?? 0) > 0}>
+        <FormControl isInvalid={(inputErrors.email?.length ?? 0) > 0}>
           <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
           <Input
             type="email"
@@ -45,7 +50,7 @@ export const Register = () => {
             onBlur={handleBlur}
             errorBorderColor="red.300"
           />
-          <FormErrorMessage>{errors.email}</FormErrorMessage>
+          <FormErrorMessage>{inputErrors.email}</FormErrorMessage>
           <FormHelperText id="email-helper-text">
             {strings.emailSubtext}
           </FormHelperText>
@@ -69,7 +74,7 @@ export const Register = () => {
           </FormHelperText>
         </FormControl>
 
-        <FormControl isInvalid={(errors.password?.length ?? 0) > 0}>
+        <FormControl isInvalid={(inputErrors.password?.length ?? 0) > 0}>
           <FormLabel htmlFor="password">{strings.passwordLabel}</FormLabel>
           <Input
             type="password"
@@ -81,7 +86,7 @@ export const Register = () => {
             onBlur={handleBlur}
             errorBorderColor="red.300"
           />
-          <FormErrorMessage>{errors.password}</FormErrorMessage>
+          <FormErrorMessage>{inputErrors.password}</FormErrorMessage>
         </FormControl>
 
         <Button variant="outline" variantColor="blue" type="submit">

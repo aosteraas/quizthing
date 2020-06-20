@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Errors, validate } from '../utils/validateRegister';
 
 interface Validate {
@@ -6,14 +6,14 @@ interface Validate {
 }
 
 interface FormState {
-  displayName: string;
+  username: string;
   email: string;
   password: string;
   [key: string]: string;
 }
 
 const initialState: FormState = {
-  displayName: '',
+  username: '',
   email: '',
   password: '',
 };
@@ -23,10 +23,9 @@ const initialState: FormState = {
  * @param callback
  * @param validate
  */
-export const useForm = (onSubmit: { (): void }) => {
+export const useForm = () => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState<Errors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,23 +51,8 @@ export const useForm = (onSubmit: { (): void }) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    onSubmit();
-  };
-
-  // use effect takes in two params
-  // callback function and observer
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      onSubmit();
-    }
-  }, [errors, isSubmitting, onSubmit]);
-
   return {
     handleChange,
-    handleSubmit,
     handleBlur,
     values,
     errors,
