@@ -15,26 +15,38 @@ interface AuthState {
   accessToken: string;
   refreshToken: string;
   stage: AuthStage;
+  loading: boolean;
+  success: boolean;
+  errors: string[];
 }
 
 const initialState: AuthState = {
   stage: AuthStage.LoggedOut,
   accessToken: '',
   refreshToken: '',
+  loading: false,
+  success: false,
+  errors: [],
 };
 const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setTokens(state, action: PayloadAction<Tokens>) {
-      const { payload } = action;
-      return {
-        ...state,
-        ...payload,
-      };
+    setTokens(state, { payload }: PayloadAction<Tokens>) {
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
+    },
+    setErrors(state, action: PayloadAction<string[]>) {
+      state.errors = action.payload;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
     },
     setStage(state, actiom: PayloadAction<AuthStage>) {
       state.stage = actiom.payload;
+    },
+    reset(state) {
+      state = initialState;
     },
   },
 });

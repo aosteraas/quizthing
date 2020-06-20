@@ -15,7 +15,7 @@ export const Errors = ({ errors }: Props) => {
       flexDirection="column"
       alignContent="flex-start"
     >
-      <AlertTitle>There were problems with your registration</AlertTitle>
+      <AlertTitle>There were problems with your request</AlertTitle>
       <AlertDescription>
         <ul style={{ paddingLeft: '1rem' }}>
           {errors.map((err, idx) => (
