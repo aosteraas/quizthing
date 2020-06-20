@@ -10,7 +10,7 @@ export interface LoginData {
 const api = new ApiClient();
 
 async function login(data: LoginData) {
-  const res = await api.post<Tokens>('/login', data);
+  const res = await api.post<Tokens>('/auth/login', data);
   return res;
 }
 

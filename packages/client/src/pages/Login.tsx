@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/core';
 import { strings } from '../locale/en';
 import { useDispatch } from 'react-redux';
+import { login } from '../store/auth/login.thunk';
 
 export const Login = () => {
   const [user, setUser] = useState('');
@@ -19,7 +20,7 @@ export const Login = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { user, password };
+    dispatch(login({ user, password }));
   };
 
   return (
