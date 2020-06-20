@@ -36,6 +36,21 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Database
+
+Suggested workflow when making changes to the schema by way of modifications to
+the entity classes
+
+1. Stop the app (if running)
+2. Connect to the database and drop the relevant table, or failing that, the
+   `quizthing` database
+3. Recreate the database if necessary
+4. Make the changes you need
+5. Restart the app
+
+It's not essential to stop the app, but it will error in some if not most cases
+when it tries, and fails, to update the database schema.
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
