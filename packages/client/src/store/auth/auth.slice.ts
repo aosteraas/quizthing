@@ -35,6 +35,7 @@ const slice = createSlice({
     setTokens(state, { payload }: PayloadAction<Tokens>) {
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
+      state.success = true;
     },
     setErrors(state, action: PayloadAction<string[]>) {
       state.errors = action.payload;
