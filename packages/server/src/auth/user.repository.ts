@@ -6,6 +6,7 @@ import { Repository, EntityRepository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -29,17 +30,12 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async validateUserPassword(
-    authCredentialsDto: AuthCredentialsDto,
-  ): Promise<string> {
-    const { username, email, password } = authCredentialsDto;
+  async validateUserPassword(loginDto: LoginDto): Promise<string> {
+    const { user: _user, password } = loginDto;
     const query = this.createQueryBuilder('user');
 
     const user = await query
-      .where('user.username = :username OR  user.email = :email', {
-        username,
-        email,
-      })
+      .where('user.username = :_user OR  user.email = :_user', { _user })
       .execute();
 
     if (user && (await user.validatePassword(password))) {
