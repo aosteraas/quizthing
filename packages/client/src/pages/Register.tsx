@@ -21,6 +21,9 @@ export const Register = () => {
   const { handleChange, handleBlur, values, errors: inputErrors } = useForm();
   const { loading, errors } = useSelector((s: RootState) => s.registration);
 
+  const formUnused = Object.values(values).every((x) => x.length === 0);
+  const submitDisabled = Object.values(inputErrors).some((x) => x.length > 0);
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(register({ ...values }));
@@ -38,7 +41,7 @@ export const Register = () => {
     >
       <Stack w="100%" spacing={5}>
         <Heading pt={10}>Sign Up</Heading>
-        <FormControl isInvalid={(inputErrors.email?.length ?? 0) > 0}>
+        <FormControl isInvalid={inputErrors.email.length > 0}>
           <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
           <Input
             type="email"
@@ -74,7 +77,7 @@ export const Register = () => {
           </FormHelperText>
         </FormControl>
 
-        <FormControl isInvalid={(inputErrors.password?.length ?? 0) > 0}>
+        <FormControl isInvalid={inputErrors.password.length > 0}>
           <FormLabel htmlFor="password">{strings.passwordLabel}</FormLabel>
           <Input
             type="password"
@@ -89,7 +92,13 @@ export const Register = () => {
           <FormErrorMessage>{inputErrors.password}</FormErrorMessage>
         </FormControl>
 
-        <Button variant="outline" variantColor="blue" type="submit">
+        <Button
+          variant="outline"
+          variantColor="blue"
+          type="submit"
+          isDisabled={submitDisabled || formUnused}
+          isLoading={loading}
+        >
           {strings.registerBtnLabel}
         </Button>
       </Stack>
