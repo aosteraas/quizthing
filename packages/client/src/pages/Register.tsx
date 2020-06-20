@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FormControl,
   FormLabel,
@@ -14,21 +14,33 @@ import { useForm } from '../hooks/useForm';
 import { strings } from '../locale/en';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
-import { register } from '../store/registration';
+import { register, RegistrationActions } from '../store/registration';
 import { Errors } from '../components/Registration';
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../Routes';
 
 export const Register = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { handleChange, handleBlur, values, errors: inputErrors } = useForm();
-  const { loading, errors } = useSelector((s: RootState) => s.registration);
+  const { loading, errors, success } = useSelector(
+    (s: RootState) => s.registration,
+  );
 
   const formUnused = Object.values(values).every((x) => x.length === 0);
   const submitDisabled = Object.values(inputErrors).some((x) => x.length > 0);
 
+  // redirect and reset registration reducer state on success
+  useEffect(() => {
+    if (success) {
+      dispatch(RegistrationActions.reset());
+      navigate(AppRoute.Registered);
+    }
+  }, [success, dispatch, navigate]);
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(register({ ...values }));
-    console.log('Registered successfully');
   };
 
   return (

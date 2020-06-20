@@ -14,6 +14,7 @@ export function register(data: RegisterData): AppThunk {
     dispatch(RegistrationActions.setLoading(true));
     try {
       await AuthService.register(data);
+      dispatch(RegistrationActions.setSuccess(true));
     } catch (err) {
       console.log(err);
       dispatch(RegistrationActions.setErrors(err));

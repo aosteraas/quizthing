@@ -1,10 +1,18 @@
 import React from 'react';
-import { Home, Login, Register, NotFound, Unauthorized } from '../pages';
+import {
+  Home,
+  Login,
+  Register,
+  NotFound,
+  Unauthorized,
+  Registered,
+} from '../pages';
 
 export enum AppRoute {
   Home = '/',
   Login = 'login',
   Register = 'register',
+  Registered = 'registered',
   NotFound = 'not-found',
   Unauthorized = 'unauthorized',
 }
@@ -23,6 +31,7 @@ export const AppRouteData: AppRouteData[] = [
   { path: AppRoute.Home, Component: Home },
   { path: AppRoute.Login, Component: Login },
   { path: AppRoute.Register, Component: Register },
+  { path: AppRoute.Registered, Component: Registered },
   { path: AppRoute.NotFound, Component: NotFound },
   { path: AppRoute.Unauthorized, Component: Unauthorized },
 ];
