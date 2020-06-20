@@ -1,5 +1,6 @@
 import { ApiClient } from './api';
 import { Tokens } from '../store/auth';
+import { RegisterData } from '../store/registration';
 
 export interface LoginData {
   user: string;
@@ -13,6 +14,12 @@ async function login(data: LoginData) {
   return res;
 }
 
+async function register(data: RegisterData) {
+  const res = await api.post('/auth/register', data);
+  return res;
+}
+
 export const AuthService = {
   login,
+  register,
 };

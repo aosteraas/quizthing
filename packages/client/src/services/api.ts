@@ -53,7 +53,7 @@ export class ApiClient implements Api {
 
   constructor() {
     const instance = axios.create({
-      baseURL: '',
+      baseURL: '/api',
       headers: defaultHeaders,
     });
 
