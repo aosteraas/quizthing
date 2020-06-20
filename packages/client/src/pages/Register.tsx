@@ -22,14 +22,10 @@ import { AppRoute } from '../Routes';
 export const Register = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { handleChange, handleBlur, values, errors: inputErrors } = useForm();
+  const { onChange, onBlur, values, errors: inputErrors, disabled } = useForm();
   const { loading, errors, success } = useSelector(
     (s: RootState) => s.registration,
   );
-
-  const formUnused = Object.values(values).every((x) => x.length === 0);
-  const submitDisabled = Object.values(inputErrors).some((x) => x.length > 0);
-
   // redirect and reset registration reducer state on success
   useEffect(() => {
     if (success) {
@@ -63,8 +59,8 @@ export const Register = () => {
             name="email"
             aria-describedby="email-helper-text"
             value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={onChange}
+            onBlur={onBlur}
             errorBorderColor="red.300"
           />
           <FormErrorMessage>{inputErrors.email}</FormErrorMessage>
@@ -84,7 +80,7 @@ export const Register = () => {
             aria-describedby="display-name-helper-text"
             placeholder={strings.displayNamePlaceHolder}
             value={values.displayName}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <FormHelperText id="display-name-helper-text">
             {strings.displayNameSubtext}
@@ -99,8 +95,8 @@ export const Register = () => {
             name="password"
             placeholder={strings.passwordPlaceHolder}
             value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={onChange}
+            onBlur={onBlur}
             errorBorderColor="red.300"
           />
           <FormErrorMessage>{inputErrors.password}</FormErrorMessage>
@@ -110,7 +106,7 @@ export const Register = () => {
           variant="outline"
           variantColor="blue"
           type="submit"
-          isDisabled={submitDisabled || formUnused}
+          isDisabled={disabled}
           isLoading={loading}
         >
           {strings.registerBtnLabel}

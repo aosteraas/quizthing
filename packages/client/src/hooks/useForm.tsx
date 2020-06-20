@@ -28,7 +28,7 @@ export const useForm = () => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialErrorState);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -40,7 +40,7 @@ export const useForm = () => {
    * Validates the input on blur
    * @param e focus event
    */
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.target;
     const validator = validate[name];
     const value = values[name];
@@ -52,10 +52,15 @@ export const useForm = () => {
     });
   };
 
+  const formUnused = Object.values(values).every((x) => x.length === 0);
+  const submitDisabled = Object.values(errors).some((x) => x.length > 0);
+  const disabled = formUnused || submitDisabled;
+
   return {
-    handleChange,
-    handleBlur,
+    onChange,
+    onBlur,
     values,
     errors,
+    disabled,
   };
 };
