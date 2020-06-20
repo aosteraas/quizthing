@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Errors, validate } from '../utils/validateRegister';
 
-interface Validate {
-  [key: string]: (input?: string) => undefined | string;
-}
-
 interface FormState {
   username: string;
   email: string;
@@ -18,6 +14,11 @@ const initialState: FormState = {
   password: '',
 };
 
+const initialErrorState: Errors = {
+  email: '',
+  password: '',
+};
+
 /**
  * Hook which can be reusable where-ever there is a form
  * @param callback
@@ -25,7 +26,7 @@ const initialState: FormState = {
  */
 export const useForm = () => {
   const [values, setValues] = useState(initialState);
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState(initialErrorState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

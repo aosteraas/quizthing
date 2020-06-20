@@ -1,6 +1,6 @@
 export interface Errors {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
   [key: string]: any;
 }
 interface Validate {
@@ -8,7 +8,7 @@ interface Validate {
 }
 
 export const validateEmail = (value?: string) => {
-  let error: string | undefined;
+  let error = '';
   if (!value) {
     error = 'Email address is required';
   } else if (!/\S+@\S+\.\S+/.test(value)) {
@@ -18,7 +18,7 @@ export const validateEmail = (value?: string) => {
 };
 
 export const validatePassword = (value?: string) => {
-  let error: string | undefined;
+  let error = '';
   if (!value) {
     error = 'Password is required';
   } else if (value.length < 6) {
@@ -30,24 +30,4 @@ export const validatePassword = (value?: string) => {
 export const validate: Validate = {
   email: validateEmail,
   password: validatePassword,
-};
-
-export const validateRegister = (values: {
-  email: string;
-  password: string;
-}) => {
-  let errors: Errors = {};
-  if (!values.email) {
-    errors.email = 'Email address is required';
-  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-    errors.email = 'Email address is invalid';
-  }
-
-  if (!values.password) {
-    errors.password = 'Password is required';
-  } else if (values.password.length < 6) {
-    errors.password = 'Password needs to be min 6 characters';
-  }
-
-  return errors;
 };
