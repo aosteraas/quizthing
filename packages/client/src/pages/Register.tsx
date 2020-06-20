@@ -30,7 +30,7 @@ export const Register = () => {
   useEffect(() => {
     if (success) {
       dispatch(RegistrationActions.reset());
-      navigate(AppRoute.Registered);
+      navigate(`/${AppRoute.Registered}`);
     }
   }, [success, dispatch, navigate]);
 
@@ -76,7 +76,7 @@ export const Register = () => {
           <Input
             type="text"
             id="display-name"
-            name="displayName"
+            name="username"
             aria-describedby="display-name-helper-text"
             placeholder={strings.displayNamePlaceHolder}
             value={values.displayName}
