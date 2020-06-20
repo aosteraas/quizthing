@@ -10,6 +10,7 @@ export interface RegisterData {
 
 export function register(data: RegisterData): AppThunk {
   return async (dispatch) => {
+    dispatch(RegistrationActions.setErrors([]));
     dispatch(RegistrationActions.setLoading(true));
     try {
       await AuthService.register(data);

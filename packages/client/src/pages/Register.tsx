@@ -15,6 +15,7 @@ import { strings } from '../locale/en';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 import { register } from '../store/registration';
+import { Errors } from '../components/Registration';
 
 export const Register = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,6 +42,7 @@ export const Register = () => {
     >
       <Stack w="100%" spacing={5}>
         <Heading pt={10}>Sign Up</Heading>
+        <Errors errors={errors} />
         <FormControl isInvalid={inputErrors.email.length > 0}>
           <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
           <Input

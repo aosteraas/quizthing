@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Nullable } from '@quizthing/common';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 
 export interface Api {
   get: <T>(url: string) => Promise<T>;
@@ -43,7 +44,7 @@ const onRejected = (err: any) => {
     // throw an error?
     return;
   }
-  return Promise.reject(err);
+  return Promise.reject(err.response.data.message);
 };
 
 export class ApiClient implements Api {

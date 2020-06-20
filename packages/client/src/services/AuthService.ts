@@ -15,7 +15,7 @@ async function login(data: LoginData) {
 }
 
 async function register(data: RegisterData) {
-  const res = await api.post('/auth/register', data);
+  const res = await api.post<void | string[]>('/auth/register', data);
   return res;
 }
 
