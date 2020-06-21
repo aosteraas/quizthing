@@ -10,11 +10,11 @@ import {
 
 export enum AppRoute {
   Home = '/',
-  Login = 'login',
-  Register = 'register',
-  Registered = 'registered',
-  NotFound = 'not-found',
-  Unauthorized = 'unauthorized',
+  Login = '/login',
+  Register = '/register',
+  Registered = '/registered',
+  NotFound = '/not-found',
+  Unauthorized = '/unauthorized',
 }
 
 export interface AppNavigationData {

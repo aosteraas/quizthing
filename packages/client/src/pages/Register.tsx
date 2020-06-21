@@ -30,7 +30,7 @@ export const Register = () => {
   useEffect(() => {
     if (success) {
       dispatch(RegistrationActions.reset());
-      navigate(`/${AppRoute.Registered}`);
+      navigate(AppRoute.Registered);
     }
   }, [success, dispatch, navigate]);
 
