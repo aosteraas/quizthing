@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FormControl,
   FormLabel,
@@ -8,33 +8,50 @@ import {
   Input,
   Stack,
   Flex,
+  Heading,
 } from '@chakra-ui/core';
 import { useForm } from '../hooks/useForm';
 import { strings } from '../locale/en';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../store';
+import { register, RegistrationActions } from '../store/registration';
+import { Errors } from '../components/Registration';
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../Routes';
 
 export const Register = () => {
-  const onSubmit = () => {
-    console.log('Registered successfully');
-  };
-
-  const { handleChange, handleSubmit, handleBlur, values, errors } = useForm(
-    onSubmit,
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { onChange, onBlur, values, errors: inputErrors, disabled } = useForm();
+  const { loading, errors, success } = useSelector(
+    (s: RootState) => s.registration,
   );
+  // redirect and reset registration reducer state on success
+  useEffect(() => {
+    if (success) {
+      dispatch(RegistrationActions.reset());
+      navigate(AppRoute.Registered);
+    }
+  }, [success, dispatch, navigate]);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(register({ ...values }));
+  };
 
   return (
     <Flex
       m="0 auto"
       alignItems="center"
       as="form"
-      onSubmit={handleSubmit}
-      width={[
-        '100%', // base
-        '50%', // 480px upwards
-        '25%', // 768px upwards
-      ]}
+      onSubmit={onSubmit}
+      width={['100%', '50%', '25%']}
+      flex="1"
     >
       <Stack w="100%" spacing={5}>
-        <FormControl isInvalid={(errors.email?.length ?? 0) > 0}>
+        <Heading pt={10}>Sign Up</Heading>
+        <Errors errors={errors} />
+        <FormControl isInvalid={inputErrors.email.length > 0}>
           <FormLabel htmlFor="email">{strings.emailLabel}</FormLabel>
           <Input
             type="email"
@@ -42,11 +59,11 @@ export const Register = () => {
             name="email"
             aria-describedby="email-helper-text"
             value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={onChange}
+            onBlur={onBlur}
             errorBorderColor="red.300"
           />
-          <FormErrorMessage>{errors.email}</FormErrorMessage>
+          <FormErrorMessage>{inputErrors.email}</FormErrorMessage>
           <FormHelperText id="email-helper-text">
             {strings.emailSubtext}
           </FormHelperText>
@@ -59,18 +76,18 @@ export const Register = () => {
           <Input
             type="text"
             id="display-name"
-            name="displayName"
+            name="username"
             aria-describedby="display-name-helper-text"
             placeholder={strings.displayNamePlaceHolder}
             value={values.displayName}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <FormHelperText id="display-name-helper-text">
             {strings.displayNameSubtext}
           </FormHelperText>
         </FormControl>
 
-        <FormControl isInvalid={(errors.password?.length ?? 0) > 0}>
+        <FormControl isInvalid={inputErrors.password.length > 0}>
           <FormLabel htmlFor="password">{strings.passwordLabel}</FormLabel>
           <Input
             type="password"
@@ -78,14 +95,22 @@ export const Register = () => {
             name="password"
             placeholder={strings.passwordPlaceHolder}
             value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={onChange}
+            onBlur={onBlur}
             errorBorderColor="red.300"
           />
-          <FormErrorMessage>{errors.password}</FormErrorMessage>
+          <FormErrorMessage>{inputErrors.password}</FormErrorMessage>
         </FormControl>
 
-        <Button type="submit">{strings.registerBtnLabel}</Button>
+        <Button
+          variant="outline"
+          variantColor="blue"
+          type="submit"
+          isDisabled={disabled}
+          isLoading={loading}
+        >
+          {strings.registerBtnLabel}
+        </Button>
       </Stack>
     </Flex>
   );

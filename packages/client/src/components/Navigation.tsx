@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
-import { AppNavigation } from '../Routes';
+import { AppNavigation, AppRoute } from '../Routes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 export const Navigation = () => {
   const [shown, setShown] = useState(false);
+  const loggedIn = useSelector((s: RootState) => s.auth.success);
   return (
     <header>
       <Flex
@@ -13,7 +16,7 @@ export const Navigation = () => {
         justify="space-between"
         wrap="wrap"
         padding="1.5rem"
-        bg="teal.500"
+        bg="blue.500"
         color="white"
       >
         <Flex align="center" mr={5}>
@@ -51,15 +54,16 @@ export const Navigation = () => {
             </Link>
           ))}
         </Box>
-
-        <Box
-          display={{ sm: shown ? 'block' : 'none', md: 'block' }}
-          mt={{ base: 4, md: 0 }}
-        >
-          <Button bg="transparent" border="1px">
-            Create account
-          </Button>
-        </Box>
+        {!loggedIn && (
+          <Box
+            display={{ sm: shown ? 'block' : 'none', md: 'block' }}
+            mt={{ base: 4, md: 0 }}
+          >
+            <Button bg="transparent" border="1px">
+              <Link to={AppRoute.Register}>Create account</Link>
+            </Button>
+          </Box>
+        )}
       </Flex>
     </header>
   );
