@@ -2,10 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserRepository } from './user.repository';
 import { JwtService } from '@nestjs/jwt';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, BadRequestException } from '@nestjs/common';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const mockUserRepository = () => ({
   signUp: jest.fn(),
+  signIn: jest.fn(),
   save: jest.fn(),
   create: jest.fn(),
   delete: jest.fn(),
@@ -54,11 +56,33 @@ describe('AuthService', () => {
       await service.signUp(authCredDto);
 
       expect(repo.signUp).toHaveBeenCalled();
+      expect(repo.signUp).toHaveBeenCalledTimes(1);
       expect(repo.signUp).toHaveBeenCalledWith(authCredDto);
     });
-    test('Throws a conoflict exception when username or email exists', async () => {
+    test('Throws a conflict exception when username or email exists', async () => {
       save.mockRejectedValue({ code: '23505' });
       expect(service.signUp(authCredDto)).rejects.toThrow(ConflictException);
+    });
+    // looks dirty and should seperate?
+    test('expect signup to fail if input empty', async () => {
+      authCredDto.username = '';
+      expect(service.signUp(authCredDto)).rejects.toThrowError(
+        BadRequestException,
+      );
+      authCredDto.username = 'fakeuser';
+      authCredDto.email = '';
+      expect(service.signUp(authCredDto)).rejects.toThrowError(
+        BadRequestException,
+      );
+      authCredDto.email = 'fake@email.com';
+      authCredDto.password = '';
+      expect(service.signUp(authCredDto)).rejects.toThrowError(
+        BadRequestException,
+      );
+    });
+    test('expect user to signUp', async () => {
+      // yeah nah
+      expect(service.signUp(authCredDto)).toBeTruthy;
     });
   });
   describe('signIn', () => {
@@ -66,5 +90,34 @@ describe('AuthService', () => {
       user: 'fakeuser',
       password: 'fakepassword',
     };
+    let signIn;
+    beforeEach(() => {
+      signIn = jest.fn();
+      repo.signIn(loginDto);
+      expect(repo.signIn).toHaveBeenCalled();
+      expect(repo.signIn).toHaveBeenCalledTimes(1);
+      expect(repo.signIn).toHaveBeenCalledWith(loginDto);
+    });
+    // think this is wrong as what is it comparing to....
+    test('Expect to be able to sign in', async () => {
+      expect(service.signIn(loginDto)).toBeTruthy();
+    });
+    test('expect signin to fail as no user', async () => {
+      loginDto.user = '';
+      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+    });
+    test('expect signin to fail as no password', async () => {
+      loginDto.password = '';
+      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+    });
+    test('expect to fail with wrong password', async () => {
+      loginDto.password = 'asdasdsda';
+      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+    });
+    // this is not right
+    // test('expect the user to not exist and throw invalid credentials', async () => {
+    //   signIn.mockRejectedValue({ error: 'Invalid Credentials' });
+    //   expect(service.signIn(loginDto)).toContain(null);
+    // });
   });
 });
