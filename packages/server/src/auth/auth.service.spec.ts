@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { UserRepository } from './user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException, BadRequestException } from '@nestjs/common';
-import { async } from 'rxjs/internal/scheduler/async';
 
 const mockUserRepository = () => ({
   signUp: jest.fn(),
@@ -92,6 +91,8 @@ describe('AuthService', () => {
     };
     let signIn;
     beforeEach(() => {
+      loginDto.user = 'fakeuser';
+      loginDto.password = 'fakepassword';
       signIn = jest.fn();
       repo.signIn(loginDto);
       expect(repo.signIn).toHaveBeenCalled();
@@ -104,15 +105,15 @@ describe('AuthService', () => {
     });
     test('expect signin to fail as no user', async () => {
       loginDto.user = '';
-      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+      expect(service.signIn(loginDto)).rejects.toThrow(BadRequestException);
     });
     test('expect signin to fail as no password', async () => {
       loginDto.password = '';
-      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+      expect(service.signIn(loginDto)).rejects.toThrow(BadRequestException);
     });
     test('expect to fail with wrong password', async () => {
       loginDto.password = 'asdasdsda';
-      expect(service.signIn(loginDto)).rejects.toThrow(TypeError);
+      expect(service.signIn(loginDto)).rejects.toThrow(BadRequestException);
     });
     // this is not right
     // test('expect the user to not exist and throw invalid credentials', async () => {
