@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuizService createQuiz returns a new quiz without the user 1`] = `
+Object {
+  "created": 2020-06-24T09:42:28.004Z,
+  "desc": "something",
+  "id": 1,
+  "questions": Array [],
+  "title": "some quiz",
+  "userId": 1,
+}
+`;
