@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { UserRepository } from './user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException, BadRequestException } from '@nestjs/common';
+import { TokenDto } from './dto/Token.dto';
 
 const mockUserRepository = () => ({
   signUp: jest.fn(),
@@ -10,6 +11,7 @@ const mockUserRepository = () => ({
   save: jest.fn(),
   create: jest.fn(),
   delete: jest.fn(),
+  validateUserPassword: jest.fn(),
 });
 
 const mockJwtService = () => ({});
@@ -94,14 +96,13 @@ describe('AuthService', () => {
       loginDto.user = 'fakeuser';
       loginDto.password = 'fakepassword';
       signIn = jest.fn();
-      repo.signIn(loginDto);
-      expect(repo.signIn).toHaveBeenCalled();
-      expect(repo.signIn).toHaveBeenCalledTimes(1);
-      expect(repo.signIn).toHaveBeenCalledWith(loginDto);
     });
     // think this is wrong as what is it comparing to....
     test('Expect to be able to sign in', async () => {
-      expect(service.signIn(loginDto)).toBeTruthy();
+      repo.validateUserPassword.mockReturnValue('testuser');
+      // this will need the jwtservice mocked
+      const res = await service.signIn(loginDto);
+      expect(res).toBeInstanceOf(TokenDto);
     });
     test('expect signin to fail as no user', async () => {
       loginDto.user = '';
