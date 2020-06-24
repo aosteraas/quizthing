@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Question } from '../question/question.entity';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Quiz extends BaseEntity {
@@ -20,4 +22,7 @@ export class Quiz extends BaseEntity {
 
   @OneToMany(() => Question, (question) => question.question, { eager: false })
   questions: Question[];
+
+  @ManyToOne(() => User, (user) => user.quizzes)
+  user: User;
 }
