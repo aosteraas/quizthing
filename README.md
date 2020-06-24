@@ -28,3 +28,7 @@
 Please note this runs the generic start command in the server, not the above `start:dev` which watches for changes.
 
 `lerna run start`
+
+### Lerna
+
+`lerna link` when you've made updates to common so they're working correctly
