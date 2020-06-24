@@ -5,6 +5,7 @@ import {
   Column,
   OneToMany,
   ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
 import { Question } from '../question/question.entity';
 import { User } from '../auth/user.entity';
@@ -17,12 +18,18 @@ export class Quiz extends BaseEntity {
   @Column()
   title: string;
 
-  @Column({ type: 'timestamptz' })
-  created: string;
+  @Column()
+  description: string;
+
+  @CreateDateColumn()
+  created: Date;
 
   @OneToMany(() => Question, (question) => question.question, { eager: false })
   questions: Question[];
 
   @ManyToOne(() => User, (user) => user.quizzes)
   user: User;
+
+  @Column()
+  userId: number;
 }

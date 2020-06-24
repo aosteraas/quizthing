@@ -1,4 +1,8 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotImplementedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuizRepository } from './quiz.repository';
 import { CreateQuizDto } from './dto/create-quiz.dto';
@@ -16,8 +20,11 @@ export class QuizService {
     return quiz;
   }
 
-  deleteQuiz() {
-    throw new NotImplementedException();
+  async deleteQuiz(id: number, user: User) {
+    const removed = await this.quizRepository.delete({ id, userId: user.id });
+    if (!removed.affected) {
+      throw new NotFoundException();
+    }
   }
 
   updateQuiz() {
