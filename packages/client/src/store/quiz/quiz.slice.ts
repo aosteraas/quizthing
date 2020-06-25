@@ -34,6 +34,9 @@ const quizSlice = createSlice({
       state.loading = false;
       state.errors = action.payload;
     },
+    load(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
     loaded(state, action: PayloadAction<Array<Quiz>>) {
       state.loading = false;
       state.quizzes = action.payload;

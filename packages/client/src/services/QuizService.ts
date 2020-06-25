@@ -12,8 +12,14 @@ async function create(data: CreateQuizDto) {
   return res;
 }
 
+async function load() {
+  const res = await api.get<Quiz[]>('/quiz');
+  return res;
+}
+
 export const QuizService = {
   create,
+  load,
 };
 
 export type { CreateQuizDto };
