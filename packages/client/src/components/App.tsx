@@ -7,7 +7,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <main style={{ height: `100%`, background: 'white' }}>
+      <main style={{ display: 'flex', height: `100%`, background: 'white' }}>
         <Routes>
           {AppRouteData.map(({ path, Component }) => (
             <Route key={path} path={path} element={<Component />} />

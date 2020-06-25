@@ -36,3 +36,4 @@ const slice = createSlice({
 const { actions, reducer } = slice;
 
 export { actions as RegistrationActions, reducer as registrationReducer };
+export type { RegistrationState };
