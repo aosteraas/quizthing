@@ -8,17 +8,20 @@ import {
   Heading,
   Button,
 } from '@chakra-ui/core';
-import { strings } from '../locale/en';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { strings } from '../locale/en';
 import { login, AuthActions } from '../store/auth';
 import { RootState } from '../store';
 import { Errors } from '../components/Registration';
+import { AppRoute } from '../Routes';
 
 export const Login = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
   // reset auth state on mount no matter what.
   useEffect(() => {
     dispatch(AuthActions.reset());
@@ -28,9 +31,9 @@ export const Login = () => {
 
   useEffect(() => {
     if (success) {
-      // todo
+      navigate(AppRoute.Dashboard);
     }
-  }, [success]);
+  }, [success, navigate]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -6,6 +6,7 @@ import {
   NotFound,
   Unauthorized,
   Registered,
+  Dashboard,
 } from '../pages';
 
 export enum AppRoute {
@@ -15,6 +16,7 @@ export enum AppRoute {
   Registered = '/registered',
   NotFound = '/not-found',
   Unauthorized = '/unauthorized',
+  Dashboard = '/dashboard',
 }
 
 export interface AppNavigationData {
@@ -40,4 +42,8 @@ export const AppNavigation: AppNavigationData[] = [
   { path: AppRoute.Home, copy: 'Home' },
   { path: AppRoute.Login, copy: 'Login' },
   { path: AppRoute.Register, copy: 'Register' },
+];
+
+export const SecureRoutes: AppRouteData[] = [
+  { path: AppRoute.Dashboard, Component: Dashboard },
 ];
