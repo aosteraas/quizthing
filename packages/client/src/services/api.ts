@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Nullable } from '@quizthing/common';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 export interface Api {
   get: <T>(url: string) => Promise<T>;

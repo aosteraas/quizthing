@@ -4,8 +4,10 @@ import {
   Unique,
   PrimaryGeneratedColumn,
   Column,
+  ManyToOne,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Quiz } from '../quiz/quiz.entity';
 
 @Entity()
 @Unique(['username'])
@@ -25,6 +27,9 @@ export class User extends BaseEntity {
 
   @Column()
   salt: string;
+
+  @ManyToOne(() => Quiz, (quiz) => quiz.user)
+  quizzes: Quiz[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

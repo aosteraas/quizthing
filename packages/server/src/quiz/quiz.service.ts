@@ -1,6 +1,12 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotImplementedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuizRepository } from './quiz.repository';
+import { CreateQuizDto } from './dto/create-quiz.dto';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class QuizService {
@@ -9,12 +15,16 @@ export class QuizService {
     private readonly quizRepository: QuizRepository,
   ) {}
 
-  createQuiz() {
-    throw new NotImplementedException();
+  async createQuiz(createQuizDto: CreateQuizDto, user: User) {
+    const quiz = await this.quizRepository.createQuiz(createQuizDto, user);
+    return quiz;
   }
 
-  deleteQuiz() {
-    throw new NotImplementedException();
+  async deleteQuiz(id: number, user: User) {
+    const removed = await this.quizRepository.delete({ id, userId: user.id });
+    if (!removed.affected) {
+      throw new NotFoundException();
+    }
   }
 
   updateQuiz() {
