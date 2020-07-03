@@ -48,11 +48,13 @@ const MyQuizzes = () => {
       <Row>
         <Heading fontSize="2rem">My Quizzes</Heading>
       </Row>
-      <div>
-        <Skeleton height="20px" my="10px" />
-        <Skeleton height="20px" my="10px" />
-        <Skeleton height="20px" my="10px" />
-      </div>
+      {loading && (
+        <div>
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" />
+        </div>
+      )}
     </Flex>
   );
 };

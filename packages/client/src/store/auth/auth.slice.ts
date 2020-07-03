@@ -48,6 +48,7 @@ const slice = createSlice({
       state.stage = actiom.payload;
     },
     reset(state) {
+      storage.purge();
       state = initialState;
     },
   },

@@ -16,7 +16,7 @@ import { UserRepository } from './user.repository';
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('SECRET'),
         signOptions: {
-          expiresIn: configService.get('EXPIRY'),
+          expiresIn: configService.get('EXPIRY', 3600) * 1000,
         },
       }),
       inject: [ConfigService],
