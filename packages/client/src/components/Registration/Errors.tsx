@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const Errors = ({ errors }: Props) => {
-  if (!errors.length) return null;
+  if (!errors.length) return <></>;
 
   return (
     <Alert

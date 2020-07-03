@@ -1,19 +1,18 @@
 import { ApiClient } from './api';
 import { Quiz } from '../store/quiz';
 
-const api = new ApiClient();
 interface CreateQuizDto {
   title: string;
   description?: string;
 }
 
 async function create(data: CreateQuizDto) {
-  const res = await api.post<Quiz>('/quiz', data);
+  const res = await ApiClient.post<Quiz>('/quiz', data);
   return res;
 }
 
 async function load() {
-  const res = await api.get<Quiz[]>('/quiz');
+  const res = await ApiClient.get<Quiz[]>('/quiz');
   return res;
 }
 

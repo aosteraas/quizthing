@@ -27,6 +27,15 @@ export class QuizService {
     }
   }
 
+  async getQuizzez(user: User) {
+    const quizzes = await this.quizRepository.find({
+      where: {
+        userId: user.id,
+      },
+    });
+    return quizzes;
+  }
+
   updateQuiz() {
     throw new NotImplementedException();
   }

@@ -6,10 +6,12 @@ import {
 } from '@reduxjs/toolkit';
 import { authReducer } from './auth';
 import { registrationReducer } from './registration';
+import { quizReducer } from './quiz';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   registration: registrationReducer,
+  quiz: quizReducer,
 });
 
 export const store = configureStore({

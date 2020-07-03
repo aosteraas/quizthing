@@ -7,15 +7,13 @@ export interface LoginData {
   password: string;
 }
 
-const api = new ApiClient();
-
 async function login(data: LoginData) {
-  const res = await api.post<Tokens>('/auth/login', data);
+  const res = await ApiClient.post<Tokens>('/auth/login', data);
   return res;
 }
 
 async function register(data: RegisterData) {
-  const res = await api.post<void | string[]>('/auth/register', data);
+  const res = await ApiClient.post<void | string[]>('/auth/register', data);
   return res;
 }
 

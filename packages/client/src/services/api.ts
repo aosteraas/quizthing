@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Nullable } from '@quizthing/common';
+import { storage } from './storage';
 
 export interface Api {
   get: <T>(url: string) => Promise<T>;
@@ -40,13 +41,14 @@ const onFulfilled = (res: AxiosResponse) => res;
  */
 const onRejected = (err: any) => {
   if (err.response.status === 401) {
+    storage.purge();
     // throw an error?
     return;
   }
   return Promise.reject(err.response.data.message);
 };
 
-export class ApiClient implements Api {
+class ApiClient implements Api {
   readonly #instance: AxiosInstance;
 
   #authToken: Nullable<string> = null;
@@ -98,3 +100,6 @@ export class ApiClient implements Api {
     this.#authToken = authToken;
   };
 }
+
+const api = new ApiClient();
+export { api as ApiClient };

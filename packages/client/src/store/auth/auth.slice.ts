@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { storage } from '../../services';
 export interface Tokens {
   accessToken: string;
   refreshToken: string;
@@ -22,12 +22,13 @@ interface AuthState {
 
 const initialState: AuthState = {
   stage: AuthStage.LoggedOut,
-  accessToken: '',
+  accessToken: storage.loadToken(),
   refreshToken: '',
   loading: false,
   success: false,
   errors: [],
 };
+
 const slice = createSlice({
   name: 'auth',
   initialState,
