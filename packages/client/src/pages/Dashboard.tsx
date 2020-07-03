@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Flex,
   PseudoBox,
   useTheme,
+  Input,
   Heading,
   Button,
   Skeleton,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from '../components/layout';
@@ -45,22 +48,42 @@ const MyQuizzes = () => {
       shadow="sm"
       flexDir="column"
     >
-      <Row>
+      <Row flexDir="column">
         <Heading fontSize="2rem">My Quizzes</Heading>
+        {loading && (
+          <div>
+            <Skeleton height="20px" my="10px" width="100%" />
+            <Skeleton height="20px" my="10px" width="100%" />
+            <Skeleton height="20px" my="10px" width="100%" />
+          </div>
+        )}
+        {!loading &&
+          quizzes.length &&
+          quizzes.map((q, idx) => <div key={idx}>{q.title}</div>)}
+        {!loading && !quizzes.length && <div>Create a quiz dickhead</div>}
       </Row>
-      {loading && (
-        <div>
-          <Skeleton height="20px" my="10px" />
-          <Skeleton height="20px" my="10px" />
-          <Skeleton height="20px" my="10px" />
-        </div>
-      )}
     </Flex>
   );
 };
 
 const CreateQuiz = () => {
   const dispatch = useDispatch();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState<string>();
+  const { success } = useSelector((s: RootState) => s.quiz);
+
+  useEffect(() => {
+    if (success) {
+      setTitle('');
+      setDescription(undefined);
+    }
+  }, [success]);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.length) return;
+    dispatch(createQuiz({ title, description }));
+  };
 
   return (
     <Flex
@@ -70,10 +93,37 @@ const CreateQuiz = () => {
       flexDir="column"
     >
       <Row>
-        <Heading>Create Quiz</Heading>
-        <Row>
-          <p>things</p>
-        </Row>
+        <Col>
+          <Heading>Create Quiz</Heading>
+          <form onSubmit={onSubmit}>
+            <FormControl>
+              <FormLabel htmlFor="title">Quiz Name</FormLabel>
+              <Input
+                type="text"
+                id="title"
+                name="title"
+                value={title}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTitle(e.target.value)
+                }
+              />
+            </FormControl>
+            <FormControl>
+              <Input
+                type="text"
+                id="description"
+                name="description"
+                value={description}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setDescription(e.target.value)
+                }
+              />
+            </FormControl>
+            <Button type="submit" variant="solid" variantColor="blue">
+              Go!
+            </Button>
+          </form>
+        </Col>
       </Row>
     </Flex>
   );

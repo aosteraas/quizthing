@@ -1,6 +1,7 @@
 import { QuizActions } from './quiz.slice';
-import { CreateQuizDto, QuizService } from '../../services';
+import { QuizService } from '../../services';
 import { AppThunk } from '..';
+import type { CreateQuizDto } from '@quizthing/common';
 
 export function createQuiz(data: CreateQuizDto): AppThunk {
   return async (dispatch) => {

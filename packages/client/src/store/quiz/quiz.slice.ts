@@ -4,6 +4,7 @@ interface QuizState {
   quizzes: Array<Quiz>;
   loading: boolean;
   errors: string[];
+  success: boolean;
 }
 
 interface Quiz {
@@ -17,6 +18,7 @@ const initialState: QuizState = {
   quizzes: [],
   loading: false,
   errors: [],
+  success: false,
 };
 
 const quizSlice = createSlice({
@@ -24,10 +26,10 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     create(state) {
-      state.loading = true;
+      state.success = false;
     },
     created(state, action: PayloadAction<Quiz>) {
-      state.loading = false;
+      state.success = true;
       state.quizzes.unshift(action.payload);
     },
     createFailed(state, action: PayloadAction<string[]>) {

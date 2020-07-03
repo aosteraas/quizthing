@@ -1,10 +1,6 @@
+import type { CreateQuizDto } from '@quizthing/common';
 import { ApiClient } from './api';
 import { Quiz } from '../store/quiz';
-
-interface CreateQuizDto {
-  title: string;
-  description?: string;
-}
 
 async function create(data: CreateQuizDto) {
   const res = await ApiClient.post<Quiz>('/quiz', data);
