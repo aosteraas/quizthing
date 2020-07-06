@@ -5,11 +5,11 @@ import { ApiClient, Api } from '../api';
 const mock = new MockAdapter(axios);
 
 describe('ApiClient tests', () => {
-  let api: Api;
+  let api: Api = ApiClient;
 
-  beforeEach(() => {
-    api = new ApiClient();
-  });
+  // beforeEach(() => {
+  //   api = new ApiClient();
+  // });
 
   afterEach(() => {
     mock.resetHistory();

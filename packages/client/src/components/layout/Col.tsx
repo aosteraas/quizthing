@@ -1,16 +1,7 @@
 import React from 'react';
-import { Box, BoxProps } from '@chakra-ui/core';
-const sm = {
-  width: `100%`,
-};
-const md = {
-  flexBasis: 0,
-  flexGrow: 1,
-  minWidth: 0,
-  maxWidth: `100%`,
-};
+import { PseudoBoxProps, PseudoBox } from '@chakra-ui/core';
 
-const baseStyle: Omit<BoxProps, 'children'> = {
+const baseStyle: Omit<PseudoBoxProps, 'children'> = {
   flexDir: 'column',
   minWidth: 0,
   maxWidth: `100%`,
@@ -19,10 +10,14 @@ const baseStyle: Omit<BoxProps, 'children'> = {
   width: {
     base: '100%',
   },
+  paddingX: {
+    base: `0.5rem`,
+    md: `1rem`,
+  },
 };
 
-export const Col = ({ children, ...rest }: BoxProps) => (
-  <Box {...baseStyle} {...rest}>
+export const Col = ({ children, ...rest }: PseudoBoxProps) => (
+  <PseudoBox {...baseStyle} {...rest}>
     {children}
-  </Box>
+  </PseudoBox>
 );

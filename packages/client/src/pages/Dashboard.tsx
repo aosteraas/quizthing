@@ -17,18 +17,12 @@ import { RootState } from '../store';
 import { createQuiz, loadQuizzes } from '../store/quiz';
 
 export const Dashboard = () => {
-  const dispatch = useDispatch();
-
   return (
     <Box as="section" width="100%" alignItems="center">
       <DashboardPanel>
-        <Row>
-          <Col>
-            <MyQuizzes />
-          </Col>
-          <Col>
-            <CreateQuiz />
-          </Col>
+        <Row flexWrap="wrap">
+          <MyQuizzes />
+          <CreateQuiz />
         </Row>
       </DashboardPanel>
     </Box>
@@ -37,32 +31,34 @@ export const Dashboard = () => {
 
 const MyQuizzes = () => {
   const dispatch = useDispatch();
+  const t = useTheme();
   useEffect(() => {
     dispatch(loadQuizzes());
   }, [dispatch]);
   const { quizzes, loading } = useSelector((s: RootState) => s.quiz);
   return (
-    <Flex
-      border={`1px solid grey`}
+    <Col
+      border="lg"
+      borderWidth="1px"
+      p={`1rem`}
+      m={`1rem`}
       borderRadius="0.25rem"
       shadow="sm"
-      flexDir="column"
+      _hover={{ borderColor: `${t.colors.blue[400]}`, shadow: 'md' }}
     >
-      <Row flexDir="column">
-        <Heading fontSize="2rem">My Quizzes</Heading>
-        {loading && (
-          <div>
-            <Skeleton height="20px" my="10px" width="100%" />
-            <Skeleton height="20px" my="10px" width="100%" />
-            <Skeleton height="20px" my="10px" width="100%" />
-          </div>
-        )}
-        {!loading &&
-          quizzes.length &&
-          quizzes.map((q, idx) => <div key={idx}>{q.title}</div>)}
-        {!loading && !quizzes.length && <div>Create a quiz dickhead</div>}
-      </Row>
-    </Flex>
+      <Heading fontSize="2rem">My Quizzes</Heading>
+      {loading && (
+        <div>
+          <Skeleton height="20px" my="10px" width="100%" />
+          <Skeleton height="20px" my="10px" width="100%" />
+          <Skeleton height="20px" my="10px" width="100%" />
+        </div>
+      )}
+      {!loading &&
+        quizzes.length > 0 &&
+        quizzes.map((q, idx) => <div key={idx}>{q.title}</div>)}
+      {!loading && !quizzes.length && <div>Create a quiz dickhead</div>}
+    </Col>
   );
 };
 
@@ -71,7 +67,7 @@ const CreateQuiz = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState<string>();
   const { success } = useSelector((s: RootState) => s.quiz);
-
+  const t = useTheme();
   useEffect(() => {
     if (success) {
       setTitle('');
@@ -86,46 +82,49 @@ const CreateQuiz = () => {
   };
 
   return (
-    <Flex
-      border={`1px solid red`}
+    <Col
+      border="lg"
+      borderWidth="1px"
+      p={`1rem`}
+      m={`1rem`}
       borderRadius="0.25rem"
+      maxWidth={{ base: '100%', md: '25%' }}
+      minWidth={{ base: '100%', sm: 'auto' }}
       shadow="sm"
-      flexDir="column"
+      _hover={{ borderColor: `${t.colors.blue[400]}`, shadow: 'md' }}
     >
-      <Row>
-        <Col>
-          <Heading>Create Quiz</Heading>
-          <form onSubmit={onSubmit}>
-            <FormControl>
-              <FormLabel htmlFor="title">Quiz Name</FormLabel>
-              <Input
-                type="text"
-                id="title"
-                name="title"
-                value={title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTitle(e.target.value)
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <Input
-                type="text"
-                id="description"
-                name="description"
-                value={description}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setDescription(e.target.value)
-                }
-              />
-            </FormControl>
-            <Button type="submit" variant="solid" variantColor="blue">
-              Go!
-            </Button>
-          </form>
-        </Col>
-      </Row>
-    </Flex>
+      <Heading>Create a Quiz</Heading>
+      <form onSubmit={onSubmit}>
+        <FormControl>
+          <FormLabel htmlFor="title">Quiz Title</FormLabel>
+          <Input
+            type="text"
+            id="title"
+            name="title"
+            value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="description">Brief Description</FormLabel>
+
+          <Input
+            type="text"
+            id="description"
+            name="description"
+            value={description}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setDescription(e.target.value)
+            }
+          />
+        </FormControl>
+        <Button type="submit" variant="solid" variantColor="blue">
+          Go!
+        </Button>
+      </form>
+    </Col>
   );
 };
 
@@ -134,16 +133,8 @@ interface PanelProps {
 }
 
 const DashboardPanel = ({ children }: PanelProps) => {
-  const t = useTheme();
-
   return (
-    <PseudoBox
-      transition="outline 0.2s linear"
-      borderRadius="md"
-      _hover={{
-        outline: `2px solid ${t.colors.blue[400]}`,
-      }}
-    >
+    <PseudoBox transition="outline 0.2s linear" borderRadius="md">
       {children}
     </PseudoBox>
   );
